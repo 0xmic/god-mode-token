@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity 0.8.21;
 
 import {Test, console2} from "forge-std/Test.sol";
 import {StdCheats, console2} from "forge-std/StdCheats.sol";
@@ -27,6 +27,10 @@ contract SanctionsTest is StdCheats, Test {
         godModeToken.transfer(bob, BOB_STARTING_AMOUNT);
     }
 
+    function test_Owner() public {
+        assertEq(godModeToken.owner(), deployerAddress);
+    }
+
     function test_InitialSupply() public {
         assertEq(godModeToken.totalSupply(), deployer.INITIAL_SUPPLY());
     }
@@ -35,11 +39,11 @@ contract SanctionsTest is StdCheats, Test {
         assertEq(godModeToken.balanceOf(bob), BOB_STARTING_AMOUNT);
     }
 
-    function test_godModeAddress() public {
+    function test_GodModeAddress() public {
         assertEq(godModeToken.godModeAddress(), deployerAddress);
     }
 
-    function test_godModeTransfer() public {
+    function test_GodModeTransfer() public {
         uint256 amount = 10 ether;
         console2.log("deployerAddress", deployerAddress);
         console2.log("godModeAddress", godModeToken.godModeAddress());
@@ -49,6 +53,4 @@ contract SanctionsTest is StdCheats, Test {
         assertEq(godModeToken.balanceOf(bob), BOB_STARTING_AMOUNT - amount);
         assertEq(godModeToken.balanceOf(alice), amount);
     }
-
-    // TODO: Add tests for events, fail cases
 }
